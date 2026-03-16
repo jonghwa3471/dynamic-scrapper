@@ -9,7 +9,9 @@ browser = p.chromium.launch(headless=False)
 
 page = browser.new_page()
 
-page.goto("https://www.wanted.co.kr/search?query=flutter&search_method=direct&tab=position")
+page.goto(
+    "https://www.wanted.co.kr/search?query=flutter&search_method=direct&tab=position"
+)
 
 """ time.sleep(5)
 
@@ -51,15 +53,21 @@ jobs_db = []
 for job in jobs:
     link = f"https://www.wanted.co.kr{job.find("a")["href"]}"
     title = job.find("strong", class_="JobCard_title___kfvj").text
-    company_name = job.find("span", class_="CompanyNameWithLocationPeriod_CompanyNameWithLocationPeriod__company__ByVLu").text
-    qualification = job.find("span", class_="CompanyNameWithLocationPeriod_CompanyNameWithLocationPeriod__location__4_w0l").text
+    company_name = job.find(
+        "span",
+        class_="CompanyNameWithLocationPeriod_CompanyNameWithLocationPeriod__company__ByVLu",
+    ).text
+    qualification = job.find(
+        "span",
+        class_="CompanyNameWithLocationPeriod_CompanyNameWithLocationPeriod__location__4_w0l",
+    ).text
     reward = job.find("span", class_="JobCard_reward__oCSIQ").text
     job = {
         "title": title,
         "company_name": company_name,
         "qualification": qualification,
         "reward": reward,
-        "link": link
+        "link": link,
     }
     jobs_db.append(job)
 
@@ -69,3 +77,4 @@ writer.writerow(["Title", "Company", "Qualification", "Reward", "Link"])
 
 for job in jobs_db:
     writer.writerow(job.values())
+file.close()
