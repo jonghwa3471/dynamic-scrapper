@@ -12,7 +12,9 @@ def home():
 @app.route("/search")
 def search():
     keyword = request.args.get("keyword")
+    print(f"keyword:{keyword}")
     wanted_jobs = extract_wanted(keyword)
+    print(f"jobs:{wanted_jobs}")
     return render_template("search.html", keyword=keyword, jobs=wanted_jobs)
 
 

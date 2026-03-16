@@ -3,10 +3,9 @@ import time
 from bs4 import BeautifulSoup
 from file import save_to_file
 
-keyword = input("원하는 키워드를 입력하세요. \n")
-
 
 def extract_wanted(keyword):
+
     p = sync_playwright().start()
 
     browser = p.chromium.launch(headless=False)
@@ -39,7 +38,7 @@ def extract_wanted(keyword):
 
     for i in range(4):
         page.keyboard.down("End")
-        time.sleep(5)
+        time.sleep(1)
 
     content = page.content()
 
@@ -67,15 +66,12 @@ def extract_wanted(keyword):
         ).text
         reward = job.find("span", class_="JobCard_reward__oCSIQ").text
         job = {
-            "포지션": title,
-            "회사명": company_name,
-            "경력": qualification,
-            "합격보상": reward,
-            "링크": link,
+            "title": title,
+            "company_name": company_name,
+            "qualification": qualification,
+            "reward": reward,
+            "link": link,
         }
         jobs_db.append(job)
 
     return jobs_db
-
-
-save_to_file(keyword, extract_wanted(keyword))
