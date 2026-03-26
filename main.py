@@ -1,5 +1,10 @@
 from flask import Flask, render_template, request, redirect, send_file
-from extractor import extract_wanted
+from extractor import (
+    extract_wanted,
+    extract_berlin,
+    extract_web3,
+    extract_weworkremotely,
+)
 from file import save_to_file
 
 app = Flask("Job Scrapper")
@@ -18,11 +23,14 @@ def search():
     if keyword == None or keyword == "":
         return redirect("/")
     if keyword in db:
-        wanted_jobs = db[keyword]
+        all_jobs = db[keyword]
     else:
-        wanted_jobs = extract_wanted(keyword)
-        db[keyword] = wanted_jobs
-    return render_template("search.html", keyword=keyword, jobs=wanted_jobs)
+        berlin_jobs = extract_berlin(keyword)
+        web3_jobs = extract_web3(keyword)
+        weworkremotely_jobs = extract_weworkremotely(keyword)
+        all_jobs = [*berlin_jobs, *web3_jobs, *weworkremotely_jobs]
+        db[keyword] = all_jobs
+    return render_template("search.html", keyword=keyword, jobs=all_jobs)
 
 
 @app.route("/export")
