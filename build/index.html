@@ -13,14 +13,28 @@
     <main class="container">
       <h1>Job Scrapper</h1>
       <h4>어떤 직업을 찾으시나요?</h4>
-      <form action="/search">
+      <form id="search-form">
         <input
+          id="keyword-input"
           type="text"
-          name="keyword"
           placeholder="검색할 키워드를 입력하세요..."
         />
-        <button>검색</button>
+        <button type="submit">검색</button>
       </form>
+
+      <script>
+        const form = document.getElementById("search-form");
+        const input = document.getElementById("keyword-input");
+
+        form.addEventListener("submit", (event) => {
+          event.preventDefault();
+          const keyword = input.value.trim().toLowerCase();
+
+          if (!keyword) return;
+
+          window.location.href = `./search/${keyword}/`;
+        });
+      </script>
     </main>
   </body>
 </html>
